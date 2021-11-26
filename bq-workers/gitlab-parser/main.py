@@ -71,7 +71,7 @@ def index():
 def process_gitlab_event(headers, msg):
     # Unique hash for the event
     signature = shared.create_unique_id(msg)
-    source = "gitlab"
+    # source = "gitlab"
 
     if "Mock" in headers:
         source += "mock"
@@ -83,6 +83,7 @@ def process_gitlab_event(headers, msg):
 
     metadata = json.loads(base64.b64decode(msg["data"]).decode("utf-8").strip())
 
+    source = metadata["repository"]["name"]
     event_type = metadata["object_kind"]
 
     if event_type not in types:
